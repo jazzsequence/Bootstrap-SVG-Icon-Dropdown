@@ -53,9 +53,20 @@ if ( ! class_exists( 'Bootstrap_SVG_Icon_Dropdown' ) ) {
 		 */
 		public function __construct() {
 			$this->hooks();
+			$this->includes();
 
 			// Replace the title and textdomain with your own.
 			$this->title = __( 'Bootstrap SVG Icon Settings', 'bootstrap-svg-dropdown' );
+		}
+
+		/**
+		 * Include external files.
+		 *
+		 * @since  1.0.0
+		 * @return void
+		 */
+		public function includes() {
+			require_once( basename( __FILE__ ) . '/inc/template-tags.php' );
 		}
 
 		/**
@@ -222,74 +233,6 @@ if ( ! class_exists( 'Bootstrap_SVG_Icon_Dropdown' ) ) {
 		}
 	}
 
-}
-
-/**
- * Initialization function.
- * @since  1.0.0
- * @return object Returns the class.
- */
-function bootstrap_svg_dropdown_init() {
-	return new Bootstrap_SVG_Icon_Dropdown();
-}
-
-/**
- * Add SVG definitions to <head>.
- *
- * @return void
- */
-function wds_include_svg_definitions() {
-	// Define svg sprite file.
-	$svg_defs = wds_get_svg_defs_sprite();
-
-	if ( file_exists( $svg_defs ) ) {
-		require_once( $svg_defs );
-	}
-}
-add_action( 'wp_head', 'wds_include_svg_definitions' );
-
-/**
- * Get the SVG defs sprite.
- *
- * @return string Path to svg-defs.svg
- * @todo   The /images/svg-defs.svg must point to your SVG sprite.
- */
-function wds_get_svg_defs_sprite() {
-	return get_template_directory() . '/images/svg-defs.svg';
-}
-
-/**
- * Get the source SVG files directory.
- *
- * @return string Path to svg images directory.
- * @todo   The /images/svg/ directory must exist and must have your svg files.
- */
-function wds_get_svg_directory() {
-	// Replace with the path to your svg images directory.
-	return get_template_directory() . '/images/svg/';
-}
-
-/**
- * Echo SVG markup.
- *
- * @param  string $icon_name Use the icon name, such as "facebook-square".
- */
-function wds_do_svg( $icon_name ) {
-	echo wds_get_svg( $icon_name ); // WPCS: XSS ok.
-}
-
-/**
- * Return SVG markup.
- *
- * @param  string $icon_name Use the icon name, such as "facebook-square".
- */
-function wds_get_svg( $icon_name ) {
-
-	$svg = '<svg class="icon icon-' . esc_html( $icon_name ) . '">';
-	$svg .= '	<use xlink:href="#icon-' . esc_html( $icon_name ) . '"></use>';
-	$svg .= '</svg>';
-
-	return $svg;
 }
 
 // Kick it off.
